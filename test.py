@@ -9,7 +9,9 @@ import random
 import codecs
 
 from time import sleep
- 
+
+count_value = 10 #每类景点爬取个数
+
 HEADERS = {
     'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:55.0) Gecko/201002201 Firefox/55.0',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -21,8 +23,6 @@ HEADERS = {
     'Cache-Control': 'no-cache'
 }
 csvfile = open('test.csv','w',encoding='utf-8', newline='')
-
-
 
 writer = csv.writer(csvfile)
 writer.writerow(["区域","名称","景点id","类型","级别","热度","地址","特色","经纬度"])
@@ -51,10 +51,9 @@ def download_soup_waitting(url):
         return ""
  
 def getTypes():
-
-    types=["文化古迹","自然风光","公园","古建筑","寺庙","遗址","古镇","陵墓陵园","故居","宗教"] #实际不止这些分组 需要自己补充
+    types=["文化古迹","自然风光","展馆","公园","农家度假","游乐场","城市观光","运动健身"]
     for type in types:
-        url="http://piao.qunar.com/ticket/list.htm?keyword=%E7%83%AD%E9%97%A8%E6%99%AF%E7%82%B9&region=&from=mpl_search_suggest&subject="+type+"&page=1"
+        url="http://piao.qunar.com/ticket/list.htm?keyword=%E7%83%AD%E9%97%A8%E6%99%AF%E7%82%B9&region=&from=mpl_search_suggest&sort=pp&subject="+type+"&page=1"
         getType(type,url,0)
 
 
@@ -69,7 +68,7 @@ def getType(type,url,count):
         
         count = count + 1
         
-        if count > 100:
+        if count > count_value:
             break
         name=sight_item['data-sight-name']
         districts=sight_item['data-districts']
@@ -97,7 +96,7 @@ def getType(type,url,count):
         writer.writerow([districts.replace("\n",""),name.replace("\n",""),data_id.replace("\n",""),type.replace("\n",""),level.replace("\n",""),product_star_level.replace("\n",""),address.replace("\n",""),intro.replace("\n",""),point.replace("\n","")])
     next=soup.find('a',attrs={'class':'next'})
     
-    if count <100:
+    if count < count_value:
         if next:
             next_url="http://piao.qunar.com"+next['href']
             getType(type,next_url,count)
