@@ -20,7 +20,8 @@ HEADERS = {
     'Pragma': 'no-cache',
     'Cache-Control': 'no-cache'
 }
-csvfile = open('去哪儿景点.csv','w',encoding='utf-8', newline='')
+csvfile = open('test.csv','w',encoding='utf-8', newline='')
+
 
 
 writer = csv.writer(csvfile)
@@ -50,16 +51,26 @@ def download_soup_waitting(url):
         return ""
  
 def getTypes():
+
     types=["文化古迹","自然风光","公园","古建筑","寺庙","遗址","古镇","陵墓陵园","故居","宗教"] #实际不止这些分组 需要自己补充
     for type in types:
         url="http://piao.qunar.com/ticket/list.htm?keyword=%E7%83%AD%E9%97%A8%E6%99%AF%E7%82%B9&region=&from=mpl_search_suggest&subject="+type+"&page=1"
-        getType(type,url)
- 
-def getType(type,url):
+        getType(type,url,0)
+
+
+
+def getType(type,url,count):
     soup=download_soup_waitting(url)
     search_list=soup.find('div', attrs={'id': 'search-list'})
     sight_items=search_list.findAll('div', attrs={'class': 'sight_item'})
+      
+    
     for sight_item in sight_items:
+        
+        count = count + 1
+        
+        if count > 100:
+            break
         name=sight_item['data-sight-name']
         districts=sight_item['data-districts']
         point=sight_item['data-point']
@@ -80,11 +91,16 @@ def getType(type,url):
             intro=intro['title']
         else:
             intro=""
+
+        print(count , [districts.replace("\n",""),name.replace("\n",""),data_id.replace("\n",""),type.replace("\n",""),level.replace("\n",""),product_star_level.replace("\n",""),address.replace("\n",""),intro.replace("\n",""),point.replace("\n","")])
+
         writer.writerow([districts.replace("\n",""),name.replace("\n",""),data_id.replace("\n",""),type.replace("\n",""),level.replace("\n",""),product_star_level.replace("\n",""),address.replace("\n",""),intro.replace("\n",""),point.replace("\n","")])
     next=soup.find('a',attrs={'class':'next'})
-    if next:
-        next_url="http://piao.qunar.com"+next['href']
-        getType(type,next_url)
+    
+    if count <100:
+        if next:
+            next_url="http://piao.qunar.com"+next['href']
+            getType(type,next_url,count)
  
  
  
