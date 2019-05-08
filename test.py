@@ -52,10 +52,14 @@ def download_soup_waitting(url):
         return ""
  
 def getTypes():
+    count = 1
     types=["文化古迹","自然风光","公园","古建筑","寺庙","遗址","古镇","陵墓陵园","故居","宗教"] #实际不止这些分组 需要自己补充
     for type in types:
         url="http://piao.qunar.com/ticket/list.htm?keyword=%E7%83%AD%E9%97%A8%E6%99%AF%E7%82%B9&region=&from=mpl_search_suggest&subject="+type+"&page=1"
         getType(type,url)
+
+        if count > 100:
+            break
  
 def getType(type,url):
     soup=download_soup_waitting(url)
