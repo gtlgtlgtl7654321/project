@@ -22,7 +22,9 @@ HEADERS = {
     'Pragma': 'no-cache',
     'Cache-Control': 'no-cache'
 }
-csvfile = open('去哪儿景点.csv','w',encoding='utf-8', newline='')
+csvfile = open('test.csv','w',encoding='utf-8', newline='')
+
+csvfile.write(codecs.BOM_UTF8) #防止乱码
 
 
 writer = csv.writer(csvfile)
