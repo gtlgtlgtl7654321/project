@@ -27,7 +27,7 @@ HEADERS = {
 csvfile = open('lvyou_data.csv','w',encoding='utf-8', newline='')
 
 writer = csv.writer(csvfile)
-writer.writerow(["区域","名称","类别","景点id","类型","级别","热度","地址","特色","价格","人气排名"])
+writer.writerow(["区域","名称","类别","景点id","主题","级别","热度","地址","特色","价格","人气排名"])
 
 def download_page(url):  # 下载页面,没用到
     try:
@@ -54,7 +54,7 @@ def download_soup_waitting(url):
         return ""
  
 def getTypes():
-    types=["运动健身"] #"文化古迹","自然风光","展馆","公园","农家度假","游乐场","城市观光",
+    types=["文化古迹","自然风光","展馆","公园","农家度假","游乐场","城市观光","运动健身"] 
     for type in types:
         url="http://piao.qunar.com/ticket/list.htm?keyword=%E7%83%AD%E9%97%A8%E6%99%AF%E7%82%B9&region=&from=mpl_search_suggest&sort=pp&subject="+type+"&page=1"
         getType(type,url,0)
@@ -80,12 +80,12 @@ def getType(type,url,count):
         districts=sight_item['data-districts']
         address=sight_item['data-address']
                 
-        level=sight_item.find('span',attrs={'class':'level'})  #星级
+        level=sight_item.find('span',attrs={'class':'level'})  
         if level:
             level=level.text
         else:
             level=""
-        product_star_level=sight_item.find('span',attrs={'class':'product_star_level'})  #热度
+        product_star_level=sight_item.find('span',attrs={'class':'product_star_level'})  
         if product_star_level:
             product_star_level=product_star_level.text
         else:

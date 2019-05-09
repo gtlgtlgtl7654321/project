@@ -1,4 +1,6 @@
-#决策树算法 test
+'''
+决策树算法 用于建立用户喜好特征
+'''
 
 from math import log
 import operator
@@ -266,3 +268,4 @@ classify(inputTree, featLabels, testVec)
 #对新景点 喜好情况 预测
 testSet = createTestSet()
 print('classifyResult:\n', classifyAll(desicionTree, labels, testSet))
+'''
