@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import csv
 from multiprocessing import Queue
 import  threading
-import random
+
 
 import codecs
 
@@ -35,7 +35,7 @@ def download_page(url):  # 下载页面,没用到
         return data
     except:
         pass
- 
+
 #下载页面 如果没法下载就 等待1秒 再下载
 def download_soup_waitting(url):
     try:

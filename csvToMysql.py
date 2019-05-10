@@ -78,22 +78,22 @@ def csv2mysql(db_name, table_name, df):
     # 创建table
     cursor.execute('DROP TABLE IF EXISTS {}'.format(table_name))
 
-    logging.info(print('DROP TABLE IF EXISTS {}'.format(table_name)))
-    logging.info(print(""))
+    # logging.info(print('DROP TABLE IF EXISTS {}'.format(table_name)))
+    # logging.info(print(""))
 
     cursor.execute('CREATE TABLE {}({})'.format(table_name,make_table_sql(df)))
 
-    logging.info(print('CREATE TABLE {}({})'.format(table_name,make_table_sql(df))))
-    logging.info(print(""))
+    # logging.info(print('CREATE TABLE {}({})'.format(table_name,make_table_sql(df))))
+    # logging.info(print(""))
 
     # 提取数据转list 这里有与pandas时间模式无法写入因此换成str 此时mysql上格式已经设置完成
     # df['日期'] = df['日期'].astype('str')
     values = df.values.tolist()
 
-    logging.info(print("df.values:"))
-    logging.info(df.values)
-    logging.info("values 的长度：")
-    logging.info(len(values))
+    # logging.info(print("df.values:"))
+    # logging.info(df.values)
+    # logging.info("values 的长度：")
+    # logging.info(len(values))
 
     # 根据columns个数
     s = ','.join(['%s' for _ in range(len(df.columns))])#11个 %s
@@ -102,8 +102,8 @@ def csv2mysql(db_name, table_name, df):
     sql='INSERT INTO {} VALUES ({})'.format(table_name,s)
     cursor.executemany( sql , values )
 
-db_name = "test"
-table_name = "test1"
+db_name = "lvyou"
+table_name = "attractions"
 csv2mysql(db_name, table_name , df)
 
 # cursor.execute('SELECT * FROM test1 LIMIT 5')

@@ -270,4 +270,3 @@ classify(inputTree, featLabels, testVec)
 #对新景点 喜好情况 预测
 testSet = createTestSet()
 print('classifyResult:\n', classifyAll(desicionTree, labels, testSet))
-'''
