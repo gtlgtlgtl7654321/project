@@ -105,9 +105,9 @@ def getType(type,url,count):
         # print("intro:" , intro)
         # print("price:" , price)
         print("")
-        print(count , [districts.replace("\n",""),name.replace("\n",""),category.replace("\n",""),data_id.replace("\n",""),type.replace("\n",""),level.replace("\n",""),product_star_level.replace("\n",""),address.replace("\n",""),intro.replace("\n",""),price])
+        print(count , [districts.replace("\n",""),name.replace("\n",""),category.replace("\n",""),data_id.replace("\n",""),theme.replace("\n",""),level.replace("\n",""),product_star_level.replace("\n",""),address.replace("\n",""),intro.replace("\n",""),price])
 
-        writer.writerow([districts.replace("\n",""),name.replace("\n",""),category.replace("\n",""),data_id.replace("\n",""),type.replace("\n",""),level.replace("\n",""),product_star_level.replace("\n",""),address.replace("\n",""),intro.replace("\n",""),price,count])
+        writer.writerow([districts.replace("\n",""),name.replace("\n",""),category.replace("\n",""),data_id.replace("\n",""),theme.replace("\n",""),level.replace("\n",""),product_star_level.replace("\n",""),address.replace("\n",""),intro.replace("\n",""),price,count])
     next=soup.find('a',attrs={'class':'next'})
     
     if count < count_value:
