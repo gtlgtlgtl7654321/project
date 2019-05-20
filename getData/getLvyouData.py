@@ -24,7 +24,7 @@ HEADERS = {
     'Pragma': 'no-cache',
     'Cache-Control': 'no-cache'
 }
-csvfile = open('lvyou_data.csv','w',encoding='utf-8', newline='')
+csvfile = open('lvyouData.csv','w',encoding='utf-8', newline='')
 
 writer = csv.writer(csvfile)
 writer.writerow(["区域","名称","类别","景点id","主题","级别","热度","地址","特色","价格","人气排名"])
