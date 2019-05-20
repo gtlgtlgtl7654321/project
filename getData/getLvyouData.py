@@ -52,7 +52,7 @@ def download_soup_waitting(url):
             return download_soup_waitting(url)
     except:
         return ""
- 
+
 def getTypes():
     types=["文化古迹","自然风光","展馆","公园","农家度假","游乐场","城市观光","运动健身"] 
     for type in types:
@@ -73,19 +73,18 @@ def getType(type,url,count):
         
         if count > count_value:
             break
-        
+        theme=type
         data_id = sight_item['data-id']
         name=sight_item['data-sight-name']
         category = sight_item['data-sight-category']
         districts=sight_item['data-districts']
         address=sight_item['data-address']
-                
-        level=sight_item.find('span',attrs={'class':'level'})  
+        level=sight_item.find('span',attrs={'class':'level'})
         if level:
             level=level.text
         else:
             level=""
-        product_star_level=sight_item.find('span',attrs={'class':'product_star_level'})  
+        product_star_level=sight_item.find('span',attrs={'class':'product_star_level'})
         if product_star_level:
             product_star_level=product_star_level.text
         else:

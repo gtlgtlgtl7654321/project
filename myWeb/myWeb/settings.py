@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'myModels',
 ]
 
 MIDDLEWARE = [
@@ -82,7 +83,7 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'mysql.connector.django',  # 或者使用 django.db.backends.mysql
-        'NAME': 'test',
+        'NAME': 'lvyou',
         'USER': 'root',
         'PASSWORD': '123456',
         'HOST':'localhost',
