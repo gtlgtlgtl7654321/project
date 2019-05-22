@@ -1,43 +1,40 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-# Create your models here.
-
-class attrationsInfo(models.Model):
+class Attractionsinfo(models.Model):
     districts = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
-    dataId = models.CharField(max_length=64)
+    dataid = models.CharField(db_column='dataId', max_length=64)  # Field name made lowercase.
     theme = models.CharField(max_length=255)
-    level = models.CharField(max_length=255)
-    productStarLevel = models.CharField(max_length=255)
+    level = models.CharField(max_length=255, blank=True, null=True)
+    productstarlevel = models.CharField(db_column='productStarLevel', max_length=255, blank=True, null=True)  # Field name made lowercase.
     address = models.CharField(max_length=255)
-    intro = models.CharField(max_length=255)
-    price = models.CharField(max_length=255)
-    count = models.CharField(max_length=64)
+    intro = models.CharField(max_length=255, blank=True, null=True)
+    price = models.CharField(max_length=255, blank=True, null=True)
+    countid = models.CharField(db_column='countId', primary_key=True, max_length=64)  # Field name made lowercase.
 
     class Meta:
-        managed = False  #如果设置为 False ，Django 将不会为当前 model 创建或者删除数据库表。如果你的测试中包含非托管 model (managed=False)，那么在测试之前，你应该要确保在测试创建时已经创建了正确的数据表。
-        db_table = 'attrationsInfo'
-
-# class userPreference(models.Model):
-#     userId = models.CharField(max_length=255)
-#     preference = models.CharField(max_length=255)
-
-#     class Meta:
-#         managed = False
-#         db_table = 'userPreference'
+        managed = False
+        db_table = 'attractionsinfo'
 
 
-class userInfo(models.Model):
-    #userId = models.CharField(max_length=10)
-    password = models.CharField(max_length=20)
-    name = models.CharField(max_length=25)
-    sex = models.CharField(max_length=10)
-    age = models.CharField(max_length=10)
+class Userinfo(models.Model):
+    userid = models.IntegerField(db_column='userId', primary_key=True)  # Field name made lowercase.
+    password = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    sex = models.CharField(max_length=255)
+    age = models.IntegerField()
     address = models.CharField(max_length=255)
-    tel = models.CharField(max_length=25)
-    preference = models.CharField(max_length=255)
+    tel = models.CharField(max_length=255, blank=True, null=True)
+    preference = models.TextField(blank=True, null=True)
 
-    # class Meta:
-    #     managed = True
-    #     db_table = 'userInfo'
+    class Meta:
+        managed = False
+        db_table = 'userinfo'

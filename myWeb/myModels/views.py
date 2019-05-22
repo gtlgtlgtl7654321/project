@@ -2,11 +2,8 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-
 from django import forms
 from django.shortcuts import render_to_response
-
-from django.contrib.auth.models import User   #导入django自带的user表
 import time
 
 # Create your views here.
@@ -102,3 +99,9 @@ def home(request):
         tmp = {'username': u, 'email': e, 'gender': g}
         USER_LIST.append(tmp)
     return render(request,'home.html',{'user_list':USER_LIST})
+
+def query(request):
+   query = request.GET['attrName']
+   attrs = Attractionsinfo.objects.filter(name__icontains = query)
+   books1 = Userinfo.objects.filter(name__icontains = query)
+   return render_to_response('search_res.html', {'query':query, 'attrs': books1})

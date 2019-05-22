@@ -2,9 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>首页</title>
+    <title>推荐系统</title>
 </head>
 <body>
-<h1>首页</h1>
+    <h1 style="text-align:center;">欢迎使用旅游景点推荐系统</h1>
+    <p>********************************************************************************************</p>
+    <div>
+        <form action="/index/" method="POST">
+            <input type="search" name="q" placeholder="输入搜索内容">
+            <input type="submit" value="搜索">
+        </form>
+        <form action="/query/" method="get">
+            搜索内容: <input type="text" name="attrName"> <br>
+            <input type="submit" value="查询价格">
+        </form>
+    </div>
+    <p>********************************************************************************************</p>
+
+
+    
 </body>
 </html>
+
+<!-- <div id="users">
+        <script src="/myWeb/static/js/list.js"></script> -->
+        <!-- 11111 class="search" automagically makes an input a search field. -->
+         <!--  <input class="search" placeholder="Search" /> -->
+        <!-- 11111 class="sort" automagically makes an element a sort buttons. The date-sort value decides what to sort by. -->
+          <!-- <button class="sort" data-sort="name">
+            Sort
+          </button> -->
+        
+        <!--11111  Child elements of container with class="list" becomes list items -->
+          <!-- <ul class="list"> -->
+            <!-- <li>
+        The innerHTML of children with class="name" becomes this items "name" value
+              <h3 class="name">Jonny Stromberg</h3>
+              <p class="born">1986</p>
+            </li>
+            <li>
+              <h3 class="name">Jonas Arnklint</h3>
+              <p class="born">1985</p>
+            </li>
+            <li>
+              <h3 class="name">Martina Elm</h3>
+              <p class="born">1986</p>
+            </li>
+            <li>
+              <h3 class="name">Gustaf Lindqvist</h3>
+              <p class="born">1983</p>
+            </li> -->
+          <!-- </ul>
+    </div> -->

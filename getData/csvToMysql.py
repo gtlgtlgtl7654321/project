@@ -10,16 +10,16 @@ import pandas as pd
 # usecols 就是说我只用这些列其他列不需要
 # parse_dates 由于csv只储存str、int、float格式无法储存日期格式，所以读取是设定吧日期列读作时间格式
 df = pd.read_csv('lvyouData.csv', encoding='utf-8', usecols=[0,1,2,3,4,5,6,7,8,9,10] )
-values = {"级别" : "普通",
-    "地址" : " ",
-    "特色" : "暂无介绍",
-    "价格" : "未知"}
+values = {"level" : "普通",
+    "address" : " ",
+    "intro" : "暂无介绍",
+    "price" : "未知"}
 
 
 # logging.info(df)
 # logging.info("")
 df = df.fillna(value = values)
-# logging.info(df)
+logging.info(df)
 # logging.info("")
 
 # 参数设置 DictCursor使输出为字典模式 连接到本地用户root 密码为123456
@@ -103,7 +103,7 @@ def csv2mysql(db_name, table_name, df):
     cursor.executemany( sql , values )
 
 db_name = "lvyou"
-table_name = "attractions"
+table_name = "attractionsinfo"
 csv2mysql(db_name, table_name , df)
 
 # cursor.execute('SELECT * FROM test1 LIMIT 5')

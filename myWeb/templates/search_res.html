@@ -1,0 +1,27 @@
+<p>You searched for: <strong>{{ query }}</strong></p>
+
+{% if attrs %}
+    <p>Found {{ attrs|length }} 景点{{ attrs|pluralize }}.</p>
+    <ul>
+        {% for attr in attrs %}
+        <table>
+            <tr>
+                <td>名称: <strong>{{ attr.name }}</strong></td>
+                <td>类别: <strong>{{attr.category}}</strong></td>
+                <td>主题: <strong>{{attr.theme}}</strong></td>
+            </tr>
+            <tr>
+                <td>星级: <strong>{{ attr.level }}</strong></td>
+                <td>地址: <strong>{{attr.address}}</strong></td>
+                <td>价格: <strong>{{attr.price}}</strong></td>
+            </tr>
+            <tr>
+                <th colspan="3">简介: <strong>{{attr.intro}}</th>
+            </tr>
+        </table>
+        <br>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>没有符合要求的景点，换个别的吧。</p>
+{% endif %}
