@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>推荐系统</title>
+</head>
+<body>
+    <h1 style="text-align:center;">欢迎使用旅游景点推荐系统</h1>
+    <p>********************************************************************************************</p>
+    <div>
+        <!-- <form action="/index/" method="POST">
+            <input type="search" name="q" placeholder="输入搜索内容">
+            <input type="submit" value="搜索">
+        </form> -->
+        <form action="/query/" method="get">
+            搜索内容: <input type="text" name="attrName">
+            <input type="submit" value="搜索">
+        </form>
+    </div>
+    <p>********************************************************************************************</p>
+    <div>
+        筛选条件：
+        <div>
+            <form>
+                <label>1、景点主题</label>
+                <select name="theme" style="width:100px;">
+                <option value="不限">不限</option>
+                <option value="不限zzzzzzz">不限zzzzzzz</option>
+                </select>
+            </form>
+        </div>
+        <div>
+            <form>
+                <label>2、景点位置</label>
+                <select name="address" style="width:100px;">
+                <option value="不限">不限</option>
+                <option value="不限zzzzzzz">不限zzzzzzz</option>
+                </select>
+            </form>
+        </div>
+        <div>
+            <form>
+                <label>3、景点分类</label>
+                <select name="category" style="width:100px;">
+                <option value="不限">不限</option>
+                <option value="不限zzzzzzz">不限zzzzzzz</option>
+                </select>
+            </form>
+        </div>
+        <div>
+            <form>
+                <label>4、景点星级</label>
+                <select name="level" style="width:100px;">
+                <option value="不限">不限</option>
+                <option value="不限zzzzzzz">不限zzzzzzz</option>
+                </select>
+            </form>
+        </div>
+        <div>
+            <form>
+                <label>5、景点热度</label>
+                <select name="productstarlevel" style="width:100px;">
+                <option value="不限">不限</option>
+                <option value="不限zzzzzzz">不限zzzzzzz</option>
+                </select>
+            </form>
+        </div>
+        <div>
+            <form>
+                <label>6、景点价格</label>
+                <select name="price" style="width:100px;">
+                <option value="不限">不限</option>
+                <option value="不限zzzzzzz">不限zzzzzzz</option>
+                </select>
+            </form>
+        </div>
+        
+
+    </div>
+    <p>********************************************************************************************</p>
+
+</body>
+</html>

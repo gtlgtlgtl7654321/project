@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>旅游推荐系统</title>
+    <style>
+        label{
+            width: 80px;
+            text-align: right;
+            display: inline-block;
+        }
+    </style>
+    <!--<link rel="stylesheet" href="/static/commons.css">-->
+</head>
+<body>
+    <!--action="/login"表示将表单提交到当前的url -->
+    <h1 style="text-align:center;">欢迎使用旅游景点推荐系统</h1>
+    <form action="/login/" method="post" align="center">
+        <p>
+        <label for="user">用户名：</label>
+        <!--设置name，使得后台有获取数据    -->
+        <input id="user" type="text" name="username" placeholder="用户名" required>
+        </p>
+        <p>
+        <label for="passwd">密码：</label>
+        <input id="passwd" type="password" name="pwd" placeholder="密码" required>
+        </p>
+        <br>
+        <input type="submit" value="登陆">
+        <!-- <a href="{% url 'register' %}">
+            <button>注册</button>
+        </a> -->
+        <input type="button" name="register" value ="注册" onclick="window.location.href='{% url 'register' %}'"/>
+    </form>
+</body>
+</html>

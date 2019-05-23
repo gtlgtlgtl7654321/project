@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django import forms
 from django.shortcuts import render_to_response
 import time
+from . import models
 
 # Create your views here.
 

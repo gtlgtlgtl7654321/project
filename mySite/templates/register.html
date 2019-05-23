@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>注册页面</title>
+</head>
+<body>
+    <script>
+        function checkForm() {
+            var tag = 1;
+            var str;
+
+            /**校验用户名*/
+            //1.获取用户输入的数据
+            var uValue = document.getElementById("user").value;
+            //alert(uValue);
+            if (uValue == "") {
+                //2.给出错误提示信息
+                str = "1.用户名不能为空";
+                tag = -1;
+            }
+
+            /**校验密码*/
+            var pValue = document.getElementById("password").value;
+            if (pValue == "") { //注意空的表示方法
+                tag = -1;
+                str += "2.密码不能为空";
+            }
+
+            /** 校验确认密码*/
+            var rpValue = document.getElementById("repassword").value;
+            if (rpValue != pValue) {
+                tag = -1;
+                str += "3.两次密码不一致";
+            }
+
+            alert(str);
+            if (tag == -1)
+                return false;
+        }
+    </script>
+
+    <table border="1px" align="center" width="1300px" cellpadding="0px"
+        cellspacing="0px">
+
+        <!--注册表单-->
+        <tr>
+            <td height="600px">
+                <!--嵌套一个十行二列的表格-->
+                <form name="form1" method="post" action=""
+                    onSubmit="return checkForm();">
+                    <table border="1px" width="600px" height="400px" align="center"
+                        cellpadding="0px" cellspacing="0px" bgcolor="white">
+                        <tr height="40px">
+                            <th colspan="2"><font size="4">欢迎使用注册功能</font></th>
+                        </tr>
+                        <tr>
+                            <th>用户名</th>
+                            <td><input type="text" name="user" size="55px" id="user"
+                                onchange="change(this.value)" />
+                                <!-- <p id="userId"></p> -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>密码</th>
+                            <td><input type="password" name="password" size="55px"
+                                id="password" /></td>
+                        </tr>
+                        <tr>
+                            <th>确认密码</th>
+                            <td><input type="password" name="repassword" size="55px"
+                                id="repassword" /></td>
+                        </tr>
+                        <tr>
+                            <th>姓名</th>
+                            <td><input type="text" name="username" size="55px" /></td>
+                        </tr>
+                        <tr>
+                            <th>性别</th>
+                            <td><input type="radio" name="sex" value="男" />男 <input
+                                type="radio" name="sex" value="女" />女</td>
+                        </tr>
+                        <tr>
+                            <th>年龄</th>
+                            <td><input type="text" name="age" size="55px" /></td>
+                        </tr>
+                        <tr>
+                            <th>住址</th>
+                            <td><input type="text" name="address" size="55px" /></td>
+                        </tr>
+                        <tr>
+                            <th>手机</th>
+                            <td><input type="text" name="tel" size="55px" /></td>
+                        </tr>
+                        <tr>
+                            <th rowspan="5">喜好</th>
+                            <td>
+                                <div align="left" style="float:left">
+                                    <form action="select1" method="get">
+                                        <label>1、故宫</label>
+                                        <select name="select1">
+                                        <option value="5">没去过，想去</option>
+                                        <option value="5">去过了，再来一次！</option>
+                                        <option value="4">去过了，还可以噢！</option>
+                                        <option value="3">去过了，一般般吧 </option>
+                                        <option value="2">去过了，不怎么滴。</option>
+                                        <option value="1">去过了，极度讨厌！</option>
+                                        </select>
+                                    </form>
+                                </div>
+                                <div align="right">
+                                    <form action="select1" method="get">
+                                        <label>6、？？</label>
+                                        <select name="select1">
+                                        <option value="5">没去过，想去</option>
+                                        <option value="5">去过了，再来一次！</option>
+                                        <option value="4">去过了，还可以噢！</option>
+                                        <option value="3">去过了，一般般吧 </option>
+                                        <option value="2">去过了，不怎么滴。</option>
+                                        <option value="1">去过了，极度讨厌！</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div align="left" style="float:left">
+                                    <form action="select1" method="get">
+                                        <label>2、aa</label>
+                                        <select name="select1">
+                                        <option value="5">没去过，想去</option>
+                                        <option value="5">去过了，再来一次！</option>
+                                        <option value="4">去过了，还可以噢！</option>
+                                        <option value="3">去过了，一般般吧 </option>
+                                        <option value="2">去过了，不怎么滴。</option>
+                                        <option value="1">去过了，极度讨厌！</option>
+                                        </select>
+                                    </form>
+                                </div>
+                                <div align="right">
+                                    <form action="select1" method="get">
+                                        <label>7、？？</label>
+                                        <select name="select1">
+                                        <option value="5">没去过，想去</option>
+                                        <option value="5">去过了，再来一次！</option>
+                                        <option value="4">去过了，还可以噢！</option>
+                                        <option value="3">去过了，一般般吧 </option>
+                                        <option value="2">去过了，不怎么滴。</option>
+                                        <option value="1">去过了，极度讨厌！</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div align="left" style="float:left">
+                                    <form action="select1" method="get">
+                                        <label>3、aa</label>
+                                        <select name="select1">
+                                        <option value="5">没去过，想去</option>
+                                        <option value="5">去过了，再来一次！</option>
+                                        <option value="4">去过了，还可以噢！</option>
+                                        <option value="3">去过了，一般般吧 </option>
+                                        <option value="2">去过了，不怎么滴。</option>
+                                        <option value="1">去过了，极度讨厌！</option>
+                                        </select>
+                                    </form>
+                                </div>
+                                <div align="right">
+                                    <form action="select1" method="get">
+                                        <label>8、？？</label>
+                                        <select name="select1">
+                                        <option value="5">没去过，想去</option>
+                                        <option value="5">去过了，再来一次！</option>
+                                        <option value="4">去过了，还可以噢！</option>
+                                        <option value="3">去过了，一般般吧 </option>
+                                        <option value="2">去过了，不怎么滴。</option>
+                                        <option value="1">去过了，极度讨厌！</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div align="left" style="float:left">
+                                    <form action="select1" method="get">
+                                        <label>4、aa</label>
+                                        <select name="select1">
+                                        <option value="5">没去过，想去</option>
+                                        <option value="5">去过了，再来一次！</option>
+                                        <option value="4">去过了，还可以噢！</option>
+                                        <option value="3">去过了，一般般吧 </option>
+                                        <option value="2">去过了，不怎么滴。</option>
+                                        <option value="1">去过了，极度讨厌！</option>
+                                        </select>
+                                    </form>
+                                </div>
+                                <div align="right">
+                                    <form action="select1" method="get">
+                                        <label>9、？？</label>
+                                        <select name="select1">
+                                        <option value="5">没去过，想去</option>
+                                        <option value="5">去过了，再来一次！</option>
+                                        <option value="4">去过了，还可以噢！</option>
+                                        <option value="3">去过了，一般般吧 </option>
+                                        <option value="2">去过了，不怎么滴。</option>
+                                        <option value="1">去过了，极度讨厌！</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div align="left" style="float:left">
+                                    <form action="select1" method="get">
+                                        <label>5、aa</label>
+                                        <select name="select1">
+                                        <option value="5">没去过，想去</option>
+                                        <option value="5">去过了，再来一次！</option>
+                                        <option value="4">去过了，还可以噢！</option>
+                                        <option value="3">去过了，一般般吧 </option>
+                                        <option value="2">去过了，不怎么滴。</option>
+                                        <option value="1">去过了，极度讨厌！</option>
+                                        </select>
+                                    </form>
+                                </div>
+                                <div align="right">
+                                    <form action="select1" method="get">
+                                        <label>10、？？</label>
+                                        <select name="select1">
+                                        <option value="5">没去过，想去</option>
+                                        <option value="5">去过了，再来一次！</option>
+                                        <option value="4">去过了，还可以噢！</option>
+                                        <option value="3">去过了，一般般吧 </option>
+                                        <option value="2">去过了，不怎么滴。</option>
+                                        <option value="1">去过了，极度讨厌！</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr align="center">
+                            <td colspan="2"><input type="submit" value="注册" /></td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
