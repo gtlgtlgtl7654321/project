@@ -55,6 +55,7 @@ def download_soup_waitting(url):
             html=response.content
             html=html.decode("utf-8")
             soup = BeautifulSoup(html, "html.parser")
+            #print soup.prettify()
             return soup
         else:
             print("2")

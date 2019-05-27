@@ -103,6 +103,6 @@ def home(request):
 
 def query(request):
    query = request.GET['attrName']
-   attrs = Attractionsinfo.objects.filter(name__icontains = query)
+   attrs = models.Attractionsinfo.objects.filter(name__icontains = query)
    books1 = Userinfo.objects.filter(name__icontains = query)
    return render_to_response('search_res.html', {'query':query, 'attrs': books1})

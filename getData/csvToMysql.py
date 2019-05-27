@@ -19,7 +19,7 @@ values = {"level" : "普通",
 # logging.info(df)
 # logging.info("")
 df = df.fillna(value = values)
-logging.info(df)
+# logging.info(df)
 # logging.info("")
 
 # 参数设置 DictCursor使输出为字典模式 连接到本地用户root 密码为123456
