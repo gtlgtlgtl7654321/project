@@ -54,7 +54,7 @@ def index(request):
 def query(request):
     query = request.GET['attrName']
     attrs = attractionsInfo.objects.filter(name__icontains = query)
-    attrs = attrs.objects.extra(select={'countid':'countid+0'})
+    attrs = attrs.extra(select={'countid':'countid+0'})
     attrs = attrs.extra(order_by=["countid"])
     user = userInfo.objects.filter(name__icontains = query)
     # print(attrs)

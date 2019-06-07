@@ -10,7 +10,7 @@ import treePlotter
 import matplotlib.pyplot as plt 
 import random
 import logging
-logging.basicConfig(level = logging.DEBUG)
+logging.basicConfig(level = logging.INFO)
 
 # %matplotlib inline
 
@@ -164,6 +164,7 @@ def createTree(dataSet, labels):
         subLabels = labels[:]                                #['temperature', 'humidity', 'windy']
         myTree[bestFeatLabel][value] = createTree(splitDataSet(dataSet, bestFeat, value), subLabels)
             # 划分数据，为下一层计算准备
+    logging.info(print("myTree:", myTree))
     return myTree
 
 
@@ -241,13 +242,16 @@ def get_a_dataSet():
     ##############################
     #等待传入数据集
     ##################################
-    dataSet_default_adult = [[0, 0, 0, 0, 0,"5"],
-                        [0, 0, 0, 0, 1,"4"],
-                        [0, 0, 0, 0, 2,"3"],
-                        [0, 0, 0, 0, 3,"2"],
-                        [0, 3, 2, 0, 3,"1"],
-                        [7, 3, 2, 0, 0,"4"],
-                        [3, 0, 0, 1, 1,"3"]]
+    dataSet_default_adult = [[0, 0, 0, 1, 2,"5"],
+                                [0, 3, 2, 1, 1,"3"],
+                                [2, 3, 2, 1, 2,"4"],
+                                [2, 3, 1, 1, 0,"5"],
+                                [7, 3, 2, 0, 2,"2"],
+                                [0, 3, 0, 1, 1,"5"],
+                                [1, 1, 1, 1, 2,"3"],
+                                [1, 1, 2, 1, 2,"3"],
+                                [3, 3, 1, 1, 2,"4"],
+                                [5, 3, 2, 1, 2,"3"]]
     return dataSet_default_adult
 
 #创建用户初始喜好情况
