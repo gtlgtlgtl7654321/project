@@ -20,13 +20,17 @@ def login(request):
     # 获取用户提交方法, request包含客户端所有信息
     # print request.method
 
+    #不允许重复登录
+    # if request.session.get('is_login',None):
+    #     return redirect('/index/')
+
     # 接收到的数据以字典形式接收
     if request.method == "POST":
         # 获取用户通过post提交的数据,request.POST看做一个字典
         # key不存在也不会报错
         username = request.POST.get('username', None)
         password = request.POST.get('pwd', None)
-        message = "所有字段都必须填写！"
+        message = "请检查填写的内容！"
         logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
         logging.info(print("输入的用户名和密码为："))
         logging.info(print(username,password))
@@ -52,6 +56,16 @@ def login(request):
                 if user.password == password:
                     # message = "登陆成功！"
                     # print("password:", user.password)
+
+                    #往session字典内写入用户状态和数据：
+                    request.session['is_login'] = True
+
+                    logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+                    logging.info(print("userid为:", user.userid))
+                    logging.info(print("name为:", user.name))
+
+                    request.session['userId'] = user.userid
+                    request.session['name'] = user.name
                     return redirect('/index/')
                 else:
                     message = "用户名与密码不匹配！请重新输入！"
@@ -60,8 +74,20 @@ def login(request):
             except:
                 message = "用户名不存在！请重新输入！"
                 # print("用户名不存在！")
-        return render(request, 'login.html', {"message": message})
-    return render(request, 'login.html')
+        logging.info(print("locals():", locals()))
+        return render(request, 'login.html', locals())  #{"message": message}  
+    return render(request, 'login.html', locals())  #Python内置了一个locals()函数，它返回当前所有的本地变量字典，我们可以偷懒的将这作为render函数的数据字典参数值，就不用费劲去构造一个形如{'message':message, 'login_form':login_form}的字典了。
+
+def logout(request):
+    if not request.session.get('is_login', None):
+        # 如果本来就未登录，也就没有登出一说
+        return redirect("/index/")
+    request.session.flush()  #flush()方法是比较安全的一种做法，而且一次性将session中的所有内容全部清空，确保不留后患。
+    # 或者使用下面的方法
+    # del request.session['is_login']
+    # del request.session['user_id']
+    # del request.session['user_name']
+    return redirect("/index/")
 
 def register(request):
     pass
