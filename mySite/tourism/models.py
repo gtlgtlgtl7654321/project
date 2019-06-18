@@ -23,10 +23,11 @@ class userInfo(models.Model):
     password = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     sex = models.CharField(max_length=255)
-    age = models.IntegerField(max_length=255)
+    age = models.IntegerField()
     address = models.CharField(max_length=255)
-    tel = models.CharField(max_length=255, blank=True, null=True)
-    preference = models.TextField(blank=True, null=True)
+    tel = models.CharField(max_length=255)
+    preference = models.TextField()
+    tree = models.TextField()
 
     # class Meta:
     #     managed = True

@@ -6,16 +6,17 @@
 </head>
 <body>
     <h1 style="text-align:center;">欢迎使用旅游景点推荐系统</h1>
-    <ul class="nav navbar-nav navbar-right" style="text-align:right;">
+    <div class="nav navbar-nav navbar-right" style="text-align:right;">
         {% if request.session.is_login %}
             你好，{{ request.session.name }}<br>
             <!-- 你使用的账号为：<p><a href="#">{{ request.session.userId }}</a></p> -->
             <p><a href="/logout/">登出</a></p>
         {% else %}
-            <p><a href="/login/">登录</a></p>
-            <p><a href="/register/">注册</a></p>
+            你尚未登陆，将无法为你提供个性化推荐，你可以：<br>
+            <p><a href="/login/">登录 </a>或
+            <a href="/register/"> 注册</a></p>
         {% endif %}
-    </ul>
+    </div>
     <p>********************************************************************************************</p>
     <div>
         <!-- <form action="/index/" method="POST">

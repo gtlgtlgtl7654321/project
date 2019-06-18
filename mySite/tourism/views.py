@@ -21,8 +21,8 @@ def login(request):
     # print request.method
 
     #不允许重复登录
-    # if request.session.get('is_login',None):
-    #     return redirect('/index/')
+    if request.session.get('is_login',None):
+        return redirect('/index/')
 
     # 接收到的数据以字典形式接收
     if request.method == "POST":
@@ -57,6 +57,7 @@ def login(request):
                     # message = "登陆成功！"
                     # print("password:", user.password)
 
+                    request.session.set_expiry(0)  #设置cookie的有效期。可以传递不同类型的参数值：• 如果为0，在用户关闭浏览器后失效 • 如果为None，则将使用全局会话失效策略
                     #往session字典内写入用户状态和数据：
                     request.session['is_login'] = True
 
@@ -90,7 +91,34 @@ def logout(request):
     return redirect("/index/")
 
 def register(request):
-    pass
+    if request.method == "POST":
+        user = request.POST.get('user', None)  #id
+        password = request.POST.get('password', None)
+        repassword = request.POST.get('repassword', None)
+        username = request.POST.get('username', None)
+        sex = request.POST.get('sex', None)
+        age = request.POST.get('age', None)
+        address = request.POST.get('address', None)
+        tel = request.POST.get('tel', None)
+        s1 = request.POST.get('select1', None)
+        s2 = request.POST.get('select2', None)
+        s3 = request.POST.get('select3', None)
+        s4 = request.POST.get('select4', None)
+        s5 = request.POST.get('select5', None)
+        s6 = request.POST.get('select6', None)
+        s7 = request.POST.get('select7', None)
+        s8 = request.POST.get('select8', None)
+        s9 = request.POST.get('select9', None)
+        s10 = request.POST.get('select10', None)
+
+        logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+        logging.info(print(locals()))
+
+
+        return render(request,"register.html")
+
+
+
     return render(request,"register.html")
 
 def index(request):
