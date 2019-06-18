@@ -93,11 +93,21 @@ def logout(request):
 def register(request):
     if request.method == "POST":
         user = request.POST.get('user', None)  #id
+        try:
+            user = int(user)
+        except:
+            message = '用户名应只含数字！'
+            return render(request, 'register.html', locals())
         password = request.POST.get('password', None)
         repassword = request.POST.get('repassword', None)
         username = request.POST.get('username', None)
         sex = request.POST.get('sex', None)
         age = request.POST.get('age', None)
+        try:
+            age = int(age)
+        except:
+            message = '年龄应只含数字！'
+            return render(request, 'register.html', locals())
         address = request.POST.get('address', None)
         tel = request.POST.get('tel', None)
         s1 = request.POST.get('select1', None)
@@ -110,16 +120,36 @@ def register(request):
         s8 = request.POST.get('select8', None)
         s9 = request.POST.get('select9', None)
         s10 = request.POST.get('select10', None)
-
         logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
         logging.info(print(locals()))
+        same_name_user = userInfo.objects.filter(userid=user)
+        if same_name_user:  # 用户名唯一
+            message = '用户已经存在，请重新选择用户名！'
+            logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+            logging.info(print(message))
+            return render(request, 'register.html', locals())
+        
+        # 当一切都OK的情况下，创建新用户
+        preference = {'1':s1,'1183':s6,'1047':s2,'1461':s7,'2808':s3,'2283':s8,'3274':s4,'2330':s9,'8918':s5,'6251':s10}
+        logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+        logging.info(print(preference))
+        new_user = userInfo.objects.create(userid = user,password = password,name = username,sex = sex,age = age,address = address,tel = tel,preference = preference,tree = "1")
+        # new_user.userId = user
+        # new_user.password = password
+        # new_user.name = username
+        # new_user.sex = sex
+        # new_user.age = age
+        # new_user.address = address
+        # new_user.tel = tel
+        # new_user.preference = {'1':s1,'1183':s6,'1047':s2,'1461':s7,'2808':s3,'2283':s8,'3274':s4,'2330':s9,'8918':s5,'6251':s10}
+        # new_user.tree = 1
+        logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+        logging.info(print(new_user))
+        new_user.save()
 
+        return redirect('/login/')  # 自动跳转到登录页面
+    return render(request, 'register.html', locals())
 
-        return render(request,"register.html")
-
-
-
-    return render(request,"register.html")
 
 def index(request):
     pass
