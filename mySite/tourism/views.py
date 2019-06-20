@@ -235,7 +235,7 @@ def query(request):
         logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
         logging.info(print('评分:',attr.dataid))
 
-
+    attrs = attrs.extra(select={'dataid':'dataid+0'})
     attrs = attrs.extra(select={'countid':'countid+0'})
     attrs = attrs.extra(order_by=["-dataid","countid"])  #  人气排序
     #user = userInfo.objects.filter(name__icontains = query)
@@ -283,10 +283,14 @@ def get_set(attrsInfo,hisaddress):
         logging.info(print(attr.productstarlevel))
         if attr.productstarlevel == "热度 1.0":
             s3 = 0
-        elif attr.productstarlevel >= "热度 0.7":
-            s3 = 1
         else:
-            s3 = 2
+            pro = attr.productstarlevel
+            prolevel = re.findall(r"\d+\.?\d*",string)
+            prolevel = float (prolevel[0])
+            if prolevel >= 0.7 :
+                s3 = 1
+            else:
+                s3 = 2
 
         #地址-> 0：在本省 | 1： 不在本省
         
