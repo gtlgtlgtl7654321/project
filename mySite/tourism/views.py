@@ -6,9 +6,14 @@ from .models import userInfo
 from django.contrib import messages
 from django.shortcuts import render_to_response
 import sys
+sys.path.append('G:/1/Python/GraduationProject/getData') 
+import decisionTrees
+import treePlotter
 import logging
 logging.basicConfig(level = logging.INFO)
 # Create your views here.
+
+
 
 def get_cur_info():
     # print sys._getframe().f_code.co_name # 当前函数名
@@ -67,6 +72,8 @@ def login(request):
 
                     request.session['userId'] = user.userid
                     request.session['name'] = user.name
+                    request.session['address'] = user.address
+                    request.session['tree'] = user.tree
                     return redirect('/index/')
                 else:
                     message = "用户名与密码不匹配！请重新输入！"
@@ -131,9 +138,30 @@ def register(request):
         
         # 当一切都OK的情况下，创建新用户
         preference = {'1':s1,'1183':s6,'1047':s2,'1461':s7,'2808':s3,'2283':s8,'3274':s4,'2330':s9,'8918':s5,'6251':s10}
+        dataset1 = [[0, 0, 0, 1, 2,s1],
+                    [0, 3, 2, 1, 1,s2],
+                    [2, 3, 2, 1, 2,s3],
+                    [2, 3, 1, 1, 0,s4],
+                    [7, 3, 2, 0, 2,s5],
+                    [0, 3, 0, 1, 1,s6],
+                    [1, 1, 1, 1, 2,s7],
+                    [1, 1, 2, 1, 2,s8],
+                    [3, 3, 1, 1, 2,s9],
+                    [5, 3, 2, 1, 2,s10]]
+        logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+        logging.info(print(dataset1))
+        dataSet_now = decisionTrees.get_a_dataSet(dataset1)  #传入评分信息
+        logging.info(print(dataSet_now))
+        dataSet, labels = decisionTrees.createDataSet(dataSet_now)
+        logging.info(print(dataSet, labels))
+        labels_tmp = labels[:]
+        logging.info(print(labels_tmp))
+        desicionTree = decisionTrees.createTree(dataSet, labels_tmp)
         logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
         logging.info(print(preference))
-        new_user = userInfo.objects.create(userid = user,password = password,name = username,sex = sex,age = age,address = address,tel = tel,preference = preference,tree = "1")
+        logging.info(print("desicionTree:",desicionTree))
+        #  treePlotter.createPlot(desicionTree) 可视化决策树
+        new_user = userInfo.objects.create(userid = user,password = password,name = username,sex = sex,age = age,address = address,tel = tel,preference = preference,tree = desicionTree)
         # new_user.userId = user
         # new_user.password = password
         # new_user.name = username
@@ -157,11 +185,64 @@ def index(request):
 
 def query(request):
     query = request.GET['attrName']
-    attrs = attractionsInfo.objects.filter(name__icontains = query)
+    attrs = attractionsInfo.objects.filter(name__icontains = query)  #  模糊搜索
+    
+    pass #筛选
+    
+    tree = request.session.get('tree',None)
+    logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+    logging.info(print('tree:',tree))
+    logging.info(print('attrs:',attrs))
+    
+    test_set = get_set(attrs)
+
     attrs = attrs.extra(select={'countid':'countid+0'})
-    attrs = attrs.extra(order_by=["countid"])
+    attrs = attrs.extra(order_by=["countid"])  #  人气排序
     user = userInfo.objects.filter(name__icontains = query)
     # print(attrs)
     # print("")
     # print(user)
     return render_to_response('search_res.html', {'query':query, 'attrs': attrs})
+
+def get_set(attrsInfo):
+    for attr in attrsInfo:
+        #主题-> "文化古迹-0","自然风光-1","展馆-2","公园-3","农家度假-4","游乐场-5","城市观光-6","运动健身-7"
+        if attr.theme == "文化古迹"：
+            s1 = 0
+        elif attr.theme == "自然风光"：
+            s1 = 1
+        elif attr.theme == "展馆"：
+            s1 = 2
+        elif attr.theme == "公园"：
+            s1 = 3
+        elif attr.theme == "农家度假"：
+            s1 = 4
+        elif attr.theme == "游乐场"：
+            s1 = 5
+        elif attr.theme == "城市观光"：
+            s1 = 6
+        else ：
+            s1 = 7
+        
+        #级别-> 0：5A景区 | 1：4A景区 | 2：3A景区 | 3：其他
+        if attr.level == "5A景区":
+            s2 = 0
+        elif attr.level == "4A景区":
+            s2 = 1
+        elif attr.level == "3A景区":
+            s2 = 2
+        else:
+            s2 = 3
+        
+        #热度-> 0： 1.0 | 1： 0.7 - 0.99 | 2：0.7以下
+        if attr.productstarlevel == "热度 1.0":
+            s3 = 0
+        elif attr.productstarlevel >= "热度 0.7":
+            s3 = 1
+        else:
+            s3 = 2
+
+        #地址-> 0：在本省 | 1： 不在本省
+        hisaddress = request.session.get(address)
+        if attr.address
+        #价格-> 0：免费 | 1：0.1-50元 起 | 2：50-500元  | 3：500元及以上 | 4：未知

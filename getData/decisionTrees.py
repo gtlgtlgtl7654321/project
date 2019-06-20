@@ -232,7 +232,7 @@ def classifyAll(inputTree, featLabels, testDataSet):
         classLabelAll.append(classify(inputTree, featLabels, testVec))
     return classLabelAll
 
-def get_a_dataSet():
+def get_a_dataSet(dataSet_default1):
     '''
     传入数据集
     '''
@@ -242,7 +242,8 @@ def get_a_dataSet():
     ##############################
     #等待传入数据集
     ##################################
-    dataSet_default_adult = [[0, 0, 0, 1, 2,"5"],
+    dataSet_default2 = dataSet_default1
+    dataSet_default = [[0, 0, 0, 1, 2,"5"],
                                 [0, 3, 2, 1, 1,"3"],
                                 [2, 3, 2, 1, 2,"4"],
                                 [2, 3, 1, 1, 0,"5"],
@@ -252,25 +253,25 @@ def get_a_dataSet():
                                 [1, 1, 2, 1, 2,"3"],
                                 [3, 3, 1, 1, 2,"4"],
                                 [5, 3, 2, 1, 2,"3"]]
-    return dataSet_default_adult
+    return dataSet_default2
 
 #创建用户初始喜好情况
 #可视化决策树的结果
 
-dataSet_now = get_a_dataSet()
+#dataSet_now = get_a_dataSet()
 
-dataSet, labels = createDataSet(dataSet_now)
-labels_tmp = labels[:]
-desicionTree = createTree(dataSet, labels_tmp)
-treePlotter.createPlot(desicionTree)
-
-
-inputTree = desicionTree
-featLabels = ['theme', 'level_a', 'level_hot', 'address', 'price']
-testVec = [1, 1, 1, 1, 1]
-classify(inputTree, featLabels, testVec)
+#dataSet, labels = createDataSet(dataSet_now)
+#labels_tmp = labels[:]
+#desicionTree = createTree(dataSet, labels_tmp)
+#treePlotter.createPlot(desicionTree) 可视化决策树
 
 
-#对新景点 喜好情况 预测
-testSet = createTestSet()
-print('classifyResult:\n', classifyAll(desicionTree, labels, testSet))
+# inputTree = desicionTree
+# featLabels = ['theme', 'level_a', 'level_hot', 'address', 'price']
+# testVec = [1, 1, 1, 1, 1]
+# classify(inputTree, featLabels, testVec)
+
+
+# #对新景点 喜好情况 预测
+# testSet = createTestSet()
+# print('classifyResult:\n', classifyAll(desicionTree, labels, testSet))
