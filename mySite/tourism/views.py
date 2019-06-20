@@ -1,16 +1,18 @@
 from django.shortcuts import render,redirect
 # from tourism.models import userInfo
 # from tourism.models import attractionsInfo
-from .models import attractionsInfo
-from .models import userInfo
+from tourism.models import attractionsInfo
+from tourism.models import userInfo
 from django.contrib import messages
 from django.shortcuts import render_to_response
 import sys
 sys.path.append('G:/1/Python/GraduationProject/getData') 
 import decisionTrees
 import treePlotter
+import re
+import ast
 import logging
-logging.basicConfig(level = logging.INFO)
+logging.basicConfig(level = logging.WARNING)
 # Create your views here.
 
 
@@ -95,7 +97,7 @@ def logout(request):
     # del request.session['is_login']
     # del request.session['user_id']
     # del request.session['user_name']
-    return redirect("/index/")
+    return redirect("/login/")
 
 def register(request):
     if request.method == "POST":
@@ -160,7 +162,7 @@ def register(request):
         logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
         logging.info(print(preference))
         logging.info(print("desicionTree:",desicionTree))
-        #  treePlotter.createPlot(desicionTree) 可视化决策树
+        #treePlotter.createPlot(desicionTree) #可视化决策树
         new_user = userInfo.objects.create(userid = user,password = password,name = username,sex = sex,age = age,address = address,tel = tel,preference = preference,tree = desicionTree)
         # new_user.userId = user
         # new_user.password = password
@@ -180,8 +182,31 @@ def register(request):
 
 
 def index(request):
-    pass
+    s1 = request.POST.get('theme', None)
+    s2 = request.POST.get('address', None)
+    s3 = request.POST.get('category', None)
+    s4 = request.POST.get('level', None)
+    s5 = request.POST.get('productstarlevel', None)
+    s6 = request.POST.get('price', None)
+    logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+    logging.info(print(s1,s2,s3,s4,s5,s6))
+    if s1 == "不限":
+        logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+        logging.info(print(s1,s2,s3,s4,s5,s6))
     return render(request,"index.html")
+
+# def getTree(request):
+#     tree = request.session.get('tree',None)
+#     return tree
+
+def countidid(L=[]):
+    if len(L)==0:
+        L.append(0)
+    L[0]+=1
+    logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+    print("计数：",L[0])
+    print(L)
+    return L[0]
 
 def query(request):
     query = request.GET['attrName']
@@ -189,42 +214,62 @@ def query(request):
     
     pass #筛选
     
-    tree = request.session.get('tree',None)
-    logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
-    logging.info(print('tree:',tree))
-    logging.info(print('attrs:',attrs))
     
-    test_set = get_set(attrs)
+
+    treeList = request.session.get('tree',None)
+    tree = ast.literal_eval(treeList)  #字符串转换为字典
+
+    #decisionTrees.inputmytree(tree)
+    # logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+    # logging.info(print('tree:',tree))
+    # logging.info(print('attrs:',attrs))
+    hisaddress = request.session.get('address',None)
+    test_set = get_set(attrs,hisaddress)
+    labels = ['theme', 'level_a', 'level_hot', 'address', 'price']
+    grade = decisionTrees.classifyAll(tree, labels, test_set)  #评分
+    print('classifyResult:\n', grade)
+    
+    for attr in attrs:
+        i = countidid()
+        attr.dataid = grade[i-1]
+        logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+        logging.info(print('评分:',attr.dataid))
+
 
     attrs = attrs.extra(select={'countid':'countid+0'})
-    attrs = attrs.extra(order_by=["countid"])  #  人气排序
-    user = userInfo.objects.filter(name__icontains = query)
+    attrs = attrs.extra(order_by=["-dataid","countid"])  #  人气排序
+    #user = userInfo.objects.filter(name__icontains = query)
     # print(attrs)
     # print("")
     # print(user)
     return render_to_response('search_res.html', {'query':query, 'attrs': attrs})
 
-def get_set(attrsInfo):
+def get_set(attrsInfo,hisaddress):
+    s = []
     for attr in attrsInfo:
+        logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+        logging.info(print('attr:',attr))
         #主题-> "文化古迹-0","自然风光-1","展馆-2","公园-3","农家度假-4","游乐场-5","城市观光-6","运动健身-7"
-        if attr.theme == "文化古迹"：
+        logging.info(print(attr.theme))
+        if attr.theme == '文化古迹' :
             s1 = 0
-        elif attr.theme == "自然风光"：
+        elif attr.theme == "自然风光":
             s1 = 1
-        elif attr.theme == "展馆"：
+        elif attr.theme == "展馆":
             s1 = 2
-        elif attr.theme == "公园"：
+        elif attr.theme == "公园":
             s1 = 3
-        elif attr.theme == "农家度假"：
+        elif attr.theme == "农家度假":
             s1 = 4
-        elif attr.theme == "游乐场"：
+        elif attr.theme == "游乐场":
             s1 = 5
-        elif attr.theme == "城市观光"：
+        elif attr.theme == "城市观光":
             s1 = 6
-        else ：
+        else :
             s1 = 7
         
         #级别-> 0：5A景区 | 1：4A景区 | 2：3A景区 | 3：其他
+        logging.info(print(attr.level))
         if attr.level == "5A景区":
             s2 = 0
         elif attr.level == "4A景区":
@@ -235,6 +280,7 @@ def get_set(attrsInfo):
             s2 = 3
         
         #热度-> 0： 1.0 | 1： 0.7 - 0.99 | 2：0.7以下
+        logging.info(print(attr.productstarlevel))
         if attr.productstarlevel == "热度 1.0":
             s3 = 0
         elif attr.productstarlevel >= "热度 0.7":
@@ -243,6 +289,39 @@ def get_set(attrsInfo):
             s3 = 2
 
         #地址-> 0：在本省 | 1： 不在本省
-        hisaddress = request.session.get(address)
-        if attr.address
+        
+        logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+        #logging.info(print("用户位置：",hisaddress))
+        attraddress = attr.address
+        if attraddress.find(hisaddress) == 1:
+            s4 = 0
+        else:
+            s4 = 1
+
         #价格-> 0：免费 | 1：0.1-50元 起 | 2：50-500元  | 3：500元及以上 | 4：未知
+        if attr.price == "免费":
+            s5 = 0
+            logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+            logging.info(print("景点价格：  免费"))
+        elif attr.price == "未知":
+            s5 = 4
+            logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+            logging.info(print("景点价格：  未知"))
+        else :
+            string = attr.price
+            price = re.findall(r"\d+\.?\d*",string)
+            logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+            logging.info(print("景点价格：",price))
+            price = float (price[0])
+            if price <= 50.0:
+                s5 = 1
+            elif price <= 500.0:
+                s5 = 2
+            else:
+                s5 = 3
+        
+        s.append([s1,s2,s3,s4,s5])
+    logging.warning(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+    logging.warning(print('评分:',s))
+    return s
+

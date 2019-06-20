@@ -9,6 +9,9 @@ import operator
 import treePlotter
 import matplotlib.pyplot as plt 
 import random
+import sys
+sys.path.append('G:/1/Python/GraduationProject/mySite/tourism')
+import views
 import logging
 logging.basicConfig(level = logging.INFO)
 
@@ -184,6 +187,8 @@ def classify(inputTree, featLabels, testVec):
     for key in secondDict.keys():                              # secondDict.keys()＝[0, 1, 2]
         if testVec[featIndex] == key:                          # secondDict[key]＝N
             # test向量的当前feature是哪个值，就走哪个树杈
+            logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+            logging.info(print("分支1"))
             if type(secondDict[key]).__name__ == 'dict':       # type(secondDict[key]).__name__＝str
                 # 如果secondDict[key]仍然是字典，则继续向下层走
                 classLabel = classify(secondDict[key], featLabels, testVec)
@@ -192,6 +197,8 @@ def classify(inputTree, featLabels, testVec):
                 classLabel = secondDict[key]
         else:
             #没有的默认
+            logging.info(print("\n[调试处文件：%s @ 函数：%s @ 行数：%s]" % (__file__, sys._getframe().f_code.co_name, sys._getframe().f_lineno)))
+            logging.info(print("分支2"))
             value = random.randint(2,4)
             logging.debug("value: %s",value)
             classLabel = value
@@ -255,6 +262,14 @@ def get_a_dataSet(dataSet_default1):
                                 [5, 3, 2, 1, 2,"3"]]
     return dataSet_default2
 
+# inputTrees = []
+
+# def inputmytree(tree)：
+#     inputTrees.insert(0, tree)
+#     return 0
+#     inputTrees.append(tree)
+#     return inputTrees
+
 #创建用户初始喜好情况
 #可视化决策树的结果
 
@@ -266,7 +281,7 @@ def get_a_dataSet(dataSet_default1):
 #treePlotter.createPlot(desicionTree) 可视化决策树
 
 
-# inputTree = desicionTree
+# inputTree = views.getTree()
 # featLabels = ['theme', 'level_a', 'level_hot', 'address', 'price']
 # testVec = [1, 1, 1, 1, 1]
 # classify(inputTree, featLabels, testVec)

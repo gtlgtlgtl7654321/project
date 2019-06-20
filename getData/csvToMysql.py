@@ -9,9 +9,9 @@ import pandas as pd
 # pandas读取文件
 # usecols 就是说我只用这些列其他列不需要
 # parse_dates 由于csv只储存str、int、float格式无法储存日期格式，所以读取是设定吧日期列读作时间格式
-df = pd.read_csv('lvyouData.csv', encoding='utf-8', usecols=[0,1,2,3,4,5,6,7,8,9,10] )
+df = pd.read_csv('lvyouData.csv', encoding='utf-8')
 values = {"level" : "普通",
-    "address" : " ",
+    "address" : "无数据",
     "intro" : "暂无介绍",
     "price" : "未知"}
 
@@ -19,6 +19,8 @@ values = {"level" : "普通",
 # logging.info(df)
 # logging.info("")
 df = df.fillna(value = values)
+stripstr = lambda x: x.strip()
+df['price'] = df['price'].apply(stripstr)
 # logging.info(df)
 # logging.info("")
 
